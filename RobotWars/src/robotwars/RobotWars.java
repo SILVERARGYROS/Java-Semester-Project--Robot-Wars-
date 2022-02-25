@@ -32,7 +32,7 @@ public class RobotWars {
             clearScreen();
             System.out.println("\nMAIN MENU\n----------");
 
-            System.out.println("New Game\t\t(1)");
+            System.out.println("New Game\t(1)");
             System.out.println("Load Game\t(2)");
             System.out.println("Instructions\t(3)");
             System.out.println("Credits\t\t(4)");
@@ -96,7 +96,7 @@ public class RobotWars {
                     System.out.println("\n~Enter game mode~");
                     System.out.println("Siege \t\t(1)");
                     System.out.println("Survival \t(2)");
-                    System.out.println("Endless \t\t(3)");
+                    System.out.println("Endless \t(3)");
                     
                     do{
                         try{
@@ -249,14 +249,19 @@ public class RobotWars {
                     //create game
                     Game game = new Game(gamemode, difficulty, soldierModifier, randomGen, maxRound, breachers, numTunnels, tunnelLength, energy);
                     //start game
+                    
+                    loadingScreen("Loading");
+                    
                     game.gameOn();
                     
                     if(game.saveOnOff()){                    
                         System.out.print("Enter file name (no need to include \".obj\"): ");
                         String fileName= input.nextLine();
                         saveGame(game,fileName);
-                        clearScreen();
                         System.out.println("Game saved under name \""+ fileName +".obj\"");
+                        System.out.println("Press enter to return to main menu.");
+                        input.nextLine();
+                        clearScreen();
                     }
                     else{
                         clearScreen();
@@ -277,6 +282,9 @@ public class RobotWars {
                     }        
                     catch (FileNotFoundException e) {
                         System.out.println("File not found");
+                        System.out.println("Press enter to return to main menu.");
+                        input.nextLine();
+                        clearScreen();
                     }
                     catch (IOException e) {
                         System.err.println(e);
@@ -288,21 +296,24 @@ public class RobotWars {
                     if(loadedGame!=null){
                         //System.out.println(loadedGame);
                         loadedGame.setGameOnOff(true);
+                        
+                        loadingScreen("Loading");
+                        
                         loadedGame.gameOn();
                         //resave
                         if(loadedGame.saveOnOff()){                    
                             System.out.print("Enter file name (no need to include \".obj\"): ");
                             String newFileName= input.nextLine();
                             saveGame(loadedGame,newFileName);
-                            clearScreen();
                             System.out.println("Game saved under name \""+ newFileName +".obj\"");
+                            System.out.println("Press enter to return to main menu.");
+                            input.nextLine();
+                            clearScreen();
                         }
                         else{
                             clearScreen();
                         }
                     }
-                   
-                break;
 
                 case 3: //instructions
                     instructions();
@@ -404,7 +415,10 @@ public class RobotWars {
     }
     
     public static void saveGame(Game game, String fileName){
-         try {
+        
+        loadingScreen("Saving");
+        
+        try {
             game.setSave(false);
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName+".obj"));
 
@@ -463,5 +477,26 @@ public class RobotWars {
     }
     
     public static void instructions(){
+    }
+    
+    public static void loadingScreen(String givenString)
+    {
+        String message = givenString;
+        double duration = 0.5;
+        clearScreen();
+        
+        for(int i = 0; i < 3; i++)
+        {
+            System.out.print(message + ".");
+            delay(duration);
+            System.out.print("\r\t\t\t\t\r");
+            System.out.print(message + "..");
+            delay(duration);
+            System.out.print("\r\t\t\t\t\r");
+            System.out.print(message + "...");
+            delay(duration);
+            System.out.print("\r\t\t\t\t\r");
+        }
+
     }
 }

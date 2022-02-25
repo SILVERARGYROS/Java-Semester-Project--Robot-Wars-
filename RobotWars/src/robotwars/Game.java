@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import static robotwars.RobotWars.clearScreen;
 import java.util.Scanner;
+import static robotwars.RobotWars.delay;
 
 public class Game implements Serializable{
     
@@ -16,7 +17,7 @@ public class Game implements Serializable{
     private boolean breachers;
     private Colony colony;
     private int currentRound;
-    private boolean  onGoingMatch;
+    private boolean onGoingMatch;
     private boolean save;
             
     public Game(String gamemode, String difficulty, int soldierModifier, boolean randomGen, int maxRound, boolean breachers, int numTunnels, int tunnelLength, int energy)
@@ -49,12 +50,27 @@ public class Game implements Serializable{
                     break;
             }
             System.out.println("Debug inGame after playerTurn");
+           
+            double duration = 0;
+            
             spawnSoldiers();    //done
             System.out.println("Debug inGame after soldiersSpawn");
-            robotsTurn();       //done
-            System.out.println("Debug inGame after robotsTurn");
+            clearScreen();
+            scannerMode();
+            delay(duration);
+            
             soldiersTurn();     //done
             System.out.println("Debug inGame after soldiersTurn");
+             clearScreen();
+            scannerMode();
+            delay(duration);
+            
+            robotsTurn();       //done
+            System.out.println("Debug inGame after robotsTurn");
+             clearScreen();
+            scannerMode();
+            delay(duration);
+            
             currentRound++;
             
             if(gameOver())      //semi done
@@ -197,7 +213,7 @@ public class Game implements Serializable{
             if(playerChoice == 1){  //camera mode
                 cameraMode();   
             }
-            else if(playerChoice == 2){  //buy robot
+             else if(playerChoice == 2){  //buy robot
                 
                 Robot robot = null;
                 do{
@@ -211,7 +227,7 @@ public class Game implements Serializable{
                     System.out.println("Energy Producer Robot -- 3 ENERGY \t(1)");
                     System.out.println("Armored Robot -- 3 ENERGY \t\t(2)");
                     System.out.println("Fighter Robot -- 4 ENERGY \t\t(3)");
-                    System.out.println("Shooter Robo -- 4 ENERGY \t\t(4)");
+                    System.out.println("Shooter Robot -- 4 ENERGY \t\t(4)");
                     System.out.println("Fire Robot -- 4 ENERGY \t\t\t(5)");
                     System.out.println("Exit \t\t\t\t\t(0)");
                     System.out.println("\nENERGY: " + colony.getEnergy());
@@ -519,15 +535,34 @@ public class Game implements Serializable{
         //all soldiers of map
         for(int i = 0; i < colony.getNumTunnels(); i++)
         {
-            for(int j = colony.getTunnelLength(i)-1; j >= 0 ; j--) //from right to left
+            for(int j = colony.getTunnelLength(i)-2; j >= 0 ; j--) //from right to left
             {
                 ArrayList<Soldier> soldierList = colony.getRoom(i, j).getSoldierList();
                 Robot robotBeforeTurn = colony.getRoom(i, j).getRobot();
                 
+                
+                /*
                 int loops = soldierList.size();
                 for(int k = 0; k < loops; k++)
                 {
                     Soldier soldier = soldierList.get(0);
+                    
+                    soldier.act(colony);
+                    
+                    Robot robotAfterTurn = colony.getRoom(i, j).getRobot();
+                    System.out.println("soldier at room " + i + j + " acted");
+                    //if robot dies soldiers dont move further
+                    if(robotBeforeTurn != robotAfterTurn)
+                    {
+                        System.out.println("loop broke");
+                        break;
+                    }
+                }
+                */
+                
+                for(int k = soldierList.size() - 1; k >= 0; k--)
+                {
+                    Soldier soldier = soldierList.get(k);
                     
                     soldier.act(colony);
                     
@@ -547,11 +582,10 @@ public class Game implements Serializable{
         for(int i = 0; i < colony.getNumTunnels(); i++)
         {
             ArrayList<Soldier> soldierList = colony.getEntryRoom(i).getSoldierList();
-            int loops = soldierList.size();
             
-            for(int j = 0; j < loops; j++)
+            for(int j = soldierList.size() - 1; j >= 0; j--)
             {
-                Soldier soldier = soldierList.get(0);
+                Soldier soldier = soldierList.get(j);
 
                 soldier.act(colony);
             }
@@ -561,6 +595,7 @@ public class Game implements Serializable{
     public boolean gameOver(){
 //        MasterRobot master = null;
         boolean gameOver = false;
+        clearScreen();
         
         //find master
         
@@ -585,7 +620,7 @@ public class Game implements Serializable{
                 //message
                 scannerMode();
                 gameOver = true;
-                System.out.println("Oh no!!! The Master Room was breached.");
+                System.out.println("\u001b[31;1mOH NO! THE MASTER ROOM WAS BREACHED!\u001b[0m");
             }
             //check soldiers count
             if(colony.getAllSoldiersNumber() == 0)
@@ -593,19 +628,33 @@ public class Game implements Serializable{
                 scannerMode();
                 //message
                 gameOver = true;
-                System.out.println("Congratulanions!!! All rooms cleared.");
+                System.out.println("\u001b[36mCONGRATULATIONS! THERE ARE NO THREATS IN THE COLONY!\u001b[0m");
             }
         }
         else if(gamemode.equals("Survival"))
-        {
-            
+        {   
+            if(colony.getMasterRoom().breached() && currentRound<maxRound){
+                scannerMode();
+                gameOver = true;
+                System.out.println("\u001b[31;1mOH NO! THE MASTER ROOM WAS BREACHED BEFORE ROUND "+ maxRound+"!\u001b[0m");
+            }
+            else if(currentRound>=maxRound){
+                scannerMode();
+                gameOver = true;
+                System.out.println("\u001b[36mCONGRATULATIONS! YOU COULD HOLD THE FORT FOR "+ maxRound+"ROUNDS WHILE WAITING FOR THE REINFORCEMENTS!\u001b[0m");
+            }
+ 
         }
-        else if(gamemode.equals("Siege"))
-        {
-            
+        else if(gamemode.equals("Endless"))
+        {           
+            if(colony.getMasterRoom().breached()){
+                scannerMode();
+                gameOver = true;
+                System.out.println("\u001b[33mTHE MASTER ROOM WAS BREACHED IN ROUND "+ currentRound+"\nCONGRATULATIONS FOR FIGHTING SO VALIANTLY!\u001b[0m");
+            }
+
         }
-       
-        
+
         
         return gameOver;
     }

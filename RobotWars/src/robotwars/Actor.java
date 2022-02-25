@@ -13,10 +13,8 @@ public abstract class Actor implements Serializable{
     }
     
     public boolean setRoom(Room room){
-       
             this.room=room;
             return true;
-        
     }
     
     public int getStamina(){
@@ -38,7 +36,7 @@ public abstract class Actor implements Serializable{
         if(getClass() == Soldier.class){
             System.out.println("in leaveRoom");
             room.getSoldierList().remove(this);
-            System.out.println("in leaveRoom after deleting soldier from list");
+//            System.out.println("in leaveRoom after deleting soldier from list");
         }
         else
         {            
@@ -47,7 +45,6 @@ public abstract class Actor implements Serializable{
         }
         room=null;
         System.out.println("out of leaveRoom");
-
     }
     
     public abstract void act(Colony colony);

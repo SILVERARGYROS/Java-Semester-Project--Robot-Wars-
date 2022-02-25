@@ -23,6 +23,7 @@ public class Colony implements Serializable{
         //initialize masterRoom
         masterRoom=new MasterRoom();
         masterRoom.setRobot(new MasterRobot(masterRoom));
+        
         //creates each tunnel of tunnelLenght
         for(int i=0; i<numTunnels; i++){
             for(int j=0; j<tunnelLength-1; j++){
@@ -211,7 +212,7 @@ public class Colony implements Serializable{
             }
         }
         if(getRoom(tunnelId,getTunnelLength(tunnelId)-1).getSoldiersNumber()!=0){
-            str[2]=str[2]+"=    \u001b[31;1m!\u001b[0m   | \n";
+            str[2]=str[2]+"=  \u001b[31;1m*  \u001b[33m*\u001b[0m  = \n";
         }
         else{
             str[2]=str[2]+"=    \u001b[33m*\u001b[0m   | \n";

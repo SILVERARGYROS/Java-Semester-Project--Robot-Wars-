@@ -18,12 +18,12 @@ public class Soldier extends Actor{
         if(room.addSoldier(this))
         {
             //disconnect from current node
-            System.out.println("BEFORE BUG");
+//            System.out.println("BEFORE BUG");
             leaveRoom();
-            System.out.println("AFTERBUG");
+//            System.out.println("AFTERBUG");
             //point to new node
             setRoom(room);
-            System.out.println("debug Soldier tried to move");
+            System.out.println("debug Soldier moved");
         }
         
     }
@@ -33,11 +33,11 @@ public class Soldier extends Actor{
         
         if(getRoom().getClass() == EntryRoom.class)
         {
-             moveTo(getRoom().getExit());
-             return;
+            moveTo(getRoom().getExit());
+            System.out.println("debug Soldier summoned");
+            return;
         }
-        
-        if(getRoom().getRobot()!=null){
+        else if(getRoom().getRobot()!=null){
             attack(getRoom().getRobot());
         }
         else{
@@ -49,15 +49,8 @@ public class Soldier extends Actor{
 //                }
 //            }
 //            moveTo(colony.getEntryRoom(i).get(j+1));
-            if(getRoom().getClass() == EntryRoom.class)
-            {
-                System.out.println("debug Soldier summoned");
-            }
-            else
-            {
-                System.out.println("debug Soldier moved to main room");
-            }
-            
+//            System.out.println("debug Soldier moved to main room");
+            System.out.println("soldier " + getRoom().getSoldierList().indexOf(this) + " moved");
             moveTo(getRoom().getExit());
             
         }
