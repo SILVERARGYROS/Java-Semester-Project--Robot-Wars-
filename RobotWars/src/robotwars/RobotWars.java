@@ -1,3 +1,9 @@
+// Argyros Konstantinos 
+// AM:2022202000014
+
+// Kounadi Vasiliki
+// AM:2022202000102
+
 package robotwars;
 
 import java.io.FileInputStream;
@@ -294,7 +300,6 @@ public class RobotWars {
                     }
                     
                     if(loadedGame!=null){
-                        //System.out.println(loadedGame);
                         loadedGame.setGameOnOff(true);
                         
                         loadingScreen("Loading");
@@ -314,9 +319,14 @@ public class RobotWars {
                             clearScreen();
                         }
                     }
+                break;
 
                 case 3: //instructions
+                    clearScreen();
                     instructions();
+                    System.out.println("\nPress enter to return to main menu.");
+                    input.nextLine();
+                    clearScreen();
                 break;
 
                 case 4: //credits
@@ -434,6 +444,26 @@ public class RobotWars {
         }
     }
     
+    public static void loadingScreen(String givenString)
+    {
+        String message = givenString;
+        double duration = 0.5;
+        clearScreen();
+        
+        for(int i = 0; i < 3; i++)
+        {
+            System.out.print(message + ".");
+            delay(duration);
+            System.out.print("\r\t\t\t\t\r");
+            System.out.print(message + "..");
+            delay(duration);
+            System.out.print("\r\t\t\t\t\r");
+            System.out.print(message + "...");
+            delay(duration);
+            System.out.print("\r\t\t\t\t\r");
+        }
+
+    }
  
     public static void delay(double seconds){
         
@@ -477,26 +507,104 @@ public class RobotWars {
     }
     
     public static void instructions(){
-    }
-    
-    public static void loadingScreen(String givenString)
-    {
-        String message = givenString;
-        double duration = 0.5;
-        clearScreen();
+        System.out.println("\n   _____  _______________  __  _____________________  _  ______\n" +
+                             "  /  _/ |/ / __/_  __/ _ \\/ / / / ___/_  __/  _/ __ \\/ |/ / __/\n" +
+                            " _/ //    /\\ \\  / / / , _/ /_/ / /__  / / _/ // /_/ /    /\\ \\  \n" +
+                            "/___/_/|_/___/ /_/ /_/|_|\\____/\\___/ /_/ /___/\\____/_/|_/___/  \n");
+        System.out.println("The Robot Colony is threatened by the Empire’s Army. Will you be able to use your unique robot warriors to save your Master?\n" 
+                + "The Colony consists of tunnels, which in turn are separated by different rooms. All tunnels "
+                + "end up in the room where the Master robot is. \nThere can be only one robot in each room at every round, but it may "
+                + "have to fight more than one soldiers of the Empire (maximum soldiers/room: 8).\n" 
+                + "The colony has an energy reserve, which is used to equip rooms with a new robots as the game "
+                + "progress, and it can be refilled by a certain robot type.");
         
-        for(int i = 0; i < 3; i++)
-        {
-            System.out.print(message + ".");
-            delay(duration);
-            System.out.print("\r\t\t\t\t\r");
-            System.out.print(message + "..");
-            delay(duration);
-            System.out.print("\r\t\t\t\t\r");
-            System.out.print(message + "...");
-            delay(duration);
-            System.out.print("\r\t\t\t\t\r");
-        }
+        System.out.println("\nGAME MODES\n-----------\n" +
+                "SIEGE:  If a soldier reaches the Master's room, your Master robot is assassinated and youlose the war.\n"
+                + "\tHowever, if there are no soldiers in the colony, meaning your robots managed to kill them all, the victory is yours.\n\n"
+                + "SURVIVAL: If a soldier reaches the Master's room, your Master robot is assassinated and you lose the war.\n" +
+                "\t  However, if you can fend off all the soldiers from the Master room till the maximum round, reinforcements will come to your aid and the victory is yours.\n" +
+                "\nENDLESS: If a soldier reaches the Master's room, your Master robot is assassinated and you lose the war. \n" +
+                "\t The loss of the war in this mode is inevitable, however the main purpose is to see for how many rounds can the robots fend off the Empire’s soldiers.\n");
+
+        System.out.println("DIFFICULTY LEVELS\n------------------\n" +
+                "The size of your colony, as well as the Empire’s manpower, are determined by the level of difficulty you chose.\n\n" +
+                "EASY: " +
+                "\t1 tunnel with 8 rooms\n" +
+                "\t1 soldier enters the tunnel in each round\n" +
+                "\tStarting energy reserve: 10\n" +
+                "\t(Survival mode) Maximum round: 25\n\n" +
+                "NORMAL: " +
+                "3 tunnels with 8 rooms\n" +
+                "\t6 soldiers enters the tunnels in each round\n" +
+                "\tStarting energy reserve: 8\n" +
+                "\t(Survival mode) Maximum round: 30\n\n" +
+                "HARD: " +
+                "\t5 tunnels with 8 rooms\n" +
+                "\t15 soldiers enters the tunnels in each round\n" +
+                "\tStarting energy reserve: 5\n" +
+                "\t(Survival mode) Maximum round: 40\n\n" +
+                "REALISTIC: " +
+                "5 tunnels with 8 rooms\n" +
+                "\t   20 soldiers enters the tunnels in each round\n" +
+                "\t   Starting energy reserve: 5\n" +
+                "\t   (Survival mode) Maximum round: 50\n\n" +
+                "CUSTOM: " +
+                "You get to build your own colony and have better control of your defensives at the entry.\n" +
+                "\tYou can random build a random colony, where the numbers in each tunnel are not equal.\n" +
+                "\t[…] tunnels with […]/(random colony) […] to […]+5 rooms  (maximum tunnels: 26, A-Z)\n" +
+                "\t[…]*(number of tunnels) soldiers enters the tunnels in each round\n" +
+                "\tStarting energy reserve: […]\n" +
+                "\t(Survival mode) Maximum round: […]\n");
+    
+        System.out.println("\u001b[31;1mSOLDIERS\u001b[0m\n---------\n" +
+                "All the Empire’s soldiers are the same. They have stamina 3 and can cause damage 1 per round to the robot they attack in the colony. \n"
+                + "Multiple soldiers can enter each tunnel according to the difficulty level chosen. \n"
+                + "Their sole purpose is to reach the Master room so they can only move forward and attack robots in the colony.\n");
+    
+        System.out.println("ROBOTS\n-------\n"
+                + "You can buy as many robot warriors as your energy reserve allows you to, in order to barricade your colony. \n"
+                + "However, you can place only one robot in each room. Each type of robot warrior can fight for the colony in a different way, "
+                + "requires different energy portions \nto be placed in the colony and can withstand a soldier’s attack better or worse.\n\n"
+                + "\u001b[33mMASTER ROBOT\u001b[0m:  Stamina: 1\n" +
+                "\t\tEnergy portion needed: -\n" +
+                "\t\tThe leader of your colony, which already exists in the Master room, the last room of each tunnel. He can’t attack soldiers \n\t\tand once its room is breached, it’s killed at once. Must be protected at all costs!\n\n" +
+                "\u001b[36mENERGY PRODUCER ROBOT\u001b[0m: Stamina: 1\n" +
+                "\t\t\tEnergy portion needed: 3\n" +
+                "\t\t\tThis robot increases the colony’s energy reserve by 1, refilling it.\n\n" +
+                "\u001b[36mARMORED ROBOT\u001b[0m: Stamina: 4\n" +
+                "\t\tEnergy portion needed: 3\n" +
+                "\t\tThis robot can delay the soldiers due to its huge stamina and act as a defense mechanism.\n\n" +
+                "\u001b[36mFIGHTER ROBOT\u001b[0m: Stamina: 1\n" +
+                "\t\tEnergy portion needed: 4\n" +
+                "\t\tThis robot can spot a soldier in the range from its room to the Master room. Once it does, it \n\t\tattacks him and reduces his stamina by 1, acting as a direct attack mechanism.\n\n" +
+                "\u001b[36mSHOOTER ROBOT\u001b[0m: Stamina: 1\n" +
+                "\t\tEnergy portion needed: 4\n" +
+                "\t\tThis robot can kill a soldier in its room instantly, acting as a direct attack mechanism. \n\t\tHowever, if it does attack, it requires 3 rounds to reload so it can kill a soldier again.\n\n" +
+                "\u001b[36mFIRE ROBOT\u001b[0m:    Stamina: 1\n" +
+                "\t\tEnergy portion needed: 4\n" +
+                "\t\tThis robot can only attack when its stamina is reduced to 0 (once a soldier attacks it for the first time). \n\t\tOnce it does, it can annihilate al the soldiers in its room, acting similarly to a bomb, sacrificing itself.\n");
+
+        System.out.println("REPRESANTATION GUIDE\n---------------------\n"
+                + "~VIEWING YOUR COLONY~\n" +
+                "In each round, the general image of your colony is displayed, where you will be able to see all the tunnels \nlined up and have a general idea of the state of the battle inside each room. \n"
+                + "Also, the mode and the difficulty level you are playing, as well as the energy reserve and the round you are currently on appear at the bottom of the screen.\n" +
+                "\u001b[31;1m*\u001b[0m means enemy presence ([…] number of soldiers in the room) \n" +
+                "Since \u001b[31;1m*\u001b[0m can declare multiple soldiers existing in a room, so unless you kill all the soldiers in one room, the * won’t disappear.\n" +
+                "\u001b[36m*\u001b[0m means ally presence ([type of] robot in the room) \n" +
+                "If there is a \u001b[36m*\u001b[0m in a room in this round, but in the next one it has disappeared, that means that the robot was killed by a soldier.\n" +
+                "\u001b[33m*\u001b[0m means Master robot (in the last room of each tunnel)\n\n" +
+                "~ROOM CAMERA MODE~\n" +
+                "This function (press 1 in the menu) allows you to view the state of any room of the colony you select in detail, and thus understand the changes that occurred in each round. \nYou can see the "
+                + "exact number of soldiers in the room with their remaining stamina, as well as the robot you might have placed along with its type and stamina.\n");
+
+        System.out.println("GAME AS A FILE\n---------------\n" +
+                "SAVE: You have the option to save the progress of every new game you play, if you are stuck and however wish to keep playing later. \n"
+                +"      The game will be saved in a file under the name you chose, which will be located in the same folder as the program-game Robot Wars.\n "
+                +"     You can select this option at any time during your gameplay.\n" +
+                "LOAD: If you wish to continue an older game you had saved (in the same folder as the program-game Robot Wars), you \n"
+                + "      can choose this option in the main menu, and keep playing from the exact point where you had previously stopped.\n");
 
     }
+    
+
 }

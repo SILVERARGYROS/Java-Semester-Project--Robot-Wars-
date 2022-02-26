@@ -90,7 +90,7 @@ public class Game implements Serializable{
     
     public void scannerMode(){
         //System.out.println("--ROBOT COLONY--");
-        System.out.println("              ___  ____  ___  ____  ______  _________  __   ____  _  ____  __\n" +
+        System.out.println("             ___  ____  ___  ____  ______  _________  __   ____  _  ____  __\n" +
                            "            / _ \\/ __ \\/ _ )/ __ \\/_  __/ / ___/ __ \\/ /  / __ \\/ |/ /\\ \\/ /\n" +
                            "           / , _/ /_/ / _  / /_/ / / /   / /__/ /_/ / /__/ /_/ /    /  \\  / \n" +
                            "          /_/|_|\\____/____/\\____/ /_/    \\___/\\____/____/\\____/_/|_/   /_/  ");
@@ -629,6 +629,7 @@ public class Game implements Serializable{
                 //message
                 gameOver = true;
                 System.out.println("\u001b[36mCONGRATULATIONS! THERE ARE NO THREATS IN THE COLONY!\u001b[0m");
+                System.out.println("\u001b[33mTO OUR FALLEN COMRADES, YOU DID NOT DEDICATE YOUR MECHANICAL HEARTS IN VAIN...\u001b[0m");
             }
         }
         else if(gamemode.equals("Survival"))
@@ -642,6 +643,7 @@ public class Game implements Serializable{
                 scannerMode();
                 gameOver = true;
                 System.out.println("\u001b[36mCONGRATULATIONS! YOU COULD HOLD THE FORT FOR "+ maxRound+"ROUNDS WHILE WAITING FOR THE REINFORCEMENTS!\u001b[0m");
+                System.out.println("\u001b[33mTO OUR FALLEN COMRADES, YOU DID NOT DEDICATE YOUR MECHANICAL HEARTS IN VAIN...\u001b[0m");
             }
  
         }
@@ -651,6 +653,7 @@ public class Game implements Serializable{
                 scannerMode();
                 gameOver = true;
                 System.out.println("\u001b[33mTHE MASTER ROOM WAS BREACHED IN ROUND "+ currentRound+"\nCONGRATULATIONS FOR FIGHTING SO VALIANTLY!\u001b[0m");
+                System.out.println("\u001b[33mTO OUR FALLEN COMRADES, YOU DID NOT DEDICATE YOUR MECHANICAL HEARTS IN VAIN...\u001b[0m");
             }
 
         }
