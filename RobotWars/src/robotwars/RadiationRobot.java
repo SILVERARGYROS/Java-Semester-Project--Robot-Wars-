@@ -1,10 +1,10 @@
 package robotwars;
 
-public class FighterRobot extends Robot{
+public class RadiationRobot extends Robot{
     //constructor
-    public FighterRobot(Room room)
+    public RadiationRobot(Room room)
     {
-        super(room, 1, 4); //stamina=1   energyNeeded=4
+        super(room, 1, 25); //stamina=1   energyNeeded=25
       
     }
     
@@ -16,33 +16,19 @@ public class FighterRobot extends Robot{
         {
             if(tmpRoom.getSoldierList().size() >0)
             {
-                tmpRoom.getSoldierList().get(0).reduceStamina(1);
-                break;
+                //erase everyone in current room
+                for(int i = tmpRoom.getSoldiersNumber() - 1; i >= 0; i--)
+                {
+                    tmpRoom.getSoldierList().get(i).reduceStamina(1);
+                }
             }
             //go to next room
             tmpRoom = tmpRoom.getExit();
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-//        int currentTunnelIndex = 0;
-//        int currentRoomIndex = 0;
-//        
-//        
-//        
-//        
+
+
+
+        //this code poisons the whole tunnel
 //        //find current room indexes
 //        for(int i = 0; i < colony.getNumTunnels(); i++)
 //        {
@@ -65,7 +51,7 @@ public class FighterRobot extends Robot{
 //            }
 //        }
 //        
-//        //scan tunnel backwards (starting from current room)
+//        //scan tunnel backwards (starting from the start of the tunnel)
 //        for(int j = currentRoomIndex; j < colony.getTunnelLength(currentTunnelIndex); j++)
 //        {
 //            tmpRoom = colony.getRoom(currentTunnelIndex, j);
@@ -73,32 +59,9 @@ public class FighterRobot extends Robot{
 //            {
 //                tmpRoom.getSoldierList().get(0).reduceStamina(1);
 //                
-//                //damages one soldier
-//                break;
+//                //damages all soldiers
+//               
 //            }
-//        }
-        
-//        //hit soldier
-//        int i,j;
-//        for(i=0; i<colony.getNumTunnels(); i++){
-//            j = colony.getTunnel(i).indexOf(getRoom());
-//            if(j> -1){
-//                break;
-//            }
-//        }
-//        
-//        int p = colony.getTunnel(i).indexOf(getRoom());
-//        for(i=p; i<colony.getTunnelLength(i)-1; i++){
-//            if(getRoom().getSoldiersNumber() != 0)
-//            {
-//                getRoom().getSoldierList().get(0).reduceStamina(1);
-//                break;
-//            }
-//        }
-//    
-//        
-//        if(getStamina()<=0){
-//            leaveRoom();
 //        }
     }
     

@@ -10,35 +10,26 @@ public class Room implements Serializable{
     private Robot robot = null;
     private ArrayList<Soldier> soldiers= new ArrayList<>();
     
-    //constructor
+    
 //    public Room(Room entry, Room exit){
 //        MAX_SOLDIERS=8;
 //        this.entry=entry;
 //        this.exit=exit;
 //    }
     
-    
-    //test
+    //constructor
     public Room(){
         MAX_SOLDIERS=8;
         this.entry=null;
         this.exit=null;
     }
     
-    public boolean setEntry(Room entry){
-        if(this.entry==null){
+    public void setEntry(Room entry){
             this.entry=entry;
-            return true;
-        }
-        return false;
     }
     
-    public boolean setExit(Room exit){
-        if(this.exit==null){
+    public void setExit(Room exit){
             this.exit=exit;
-            return true;
-        }
-        return false;
     }
     
     public Room getEntry()
@@ -126,7 +117,27 @@ public class Room implements Serializable{
                 else if(robot instanceof FireRobot){
                     str[i]="|                \u001b[36m"+robot.getType()+"\u001b[0m              |\n";
                 }
-                
+                else if(robot instanceof PowerHouseRobot){
+                    str[i]="|           \u001b[36m"+robot.getType()+"\u001b[0m            |\n";
+                }
+                else if(robot instanceof ObsidianRobot){
+                    str[i]="|             \u001b[36m"+robot.getType()+"\u001b[0m             |\n";
+                }
+                else if(robot instanceof RadiationRobot){
+                    str[i]="|            \u001b[36m"+robot.getType()+"\u001b[0m             |\n";
+                }
+                else if(robot instanceof LongRangeShooterRobot){
+                    str[i]="|         \u001b[36m"+robot.getType()+"\u001b[0m       |\n";
+                }
+                else if(robot instanceof LaserShooterRobot){
+                    str[i]="|           \u001b[36m"+robot.getType()+"\u001b[0m          |\n";
+                }
+                else if(robot instanceof FireBarrelRobot){
+                    str[i]="|            \u001b[36m"+robot.getType()+"\u001b[0m           |\n";
+                }
+                else if(robot instanceof BFG9000Robot){
+                    str[i]="|              \u001b[32m"+robot.getType()+"\u001b[0m             |\n";
+                }
             }  
             else if(i==3 && robot!=null){
                 if(robot instanceof ShooterRobot){
@@ -134,6 +145,15 @@ public class Room implements Serializable{
                 }
                 else if(robot instanceof MasterRobot){
                     str[i]="|                  \u001b[33mHP:"+robot.getStamina()+"\u001b[0m                  |\n";
+                }
+                else if(robot instanceof LongRangeShooterRobot){
+                    str[i]="|         \u001b[36mHP:"+robot.getStamina()+"  Time for reload:"+((LongRangeShooterRobot)robot).getReload()+"\u001b[0m        |\n";
+                }
+                else if(robot instanceof LaserShooterRobot){
+                    str[i]="|         \u001b[36mHP:"+robot.getStamina()+"  Time for reload:"+((LaserShooterRobot)robot).getReload()+"\u001b[0m        |\n";
+                }
+                else if(robot instanceof BFG9000Robot){
+                    str[i]="|          \u001b[32mHP:"+robot.getStamina()+"  Time for reload:"+((BFG9000Robot)robot).getReload()+"\u001b[0m       |\n";
                 }
                 else{
                     str[i]="|                  \u001b[36mHP:"+robot.getStamina()+"\u001b[0m                  |\n";
@@ -197,7 +217,4 @@ public class Room implements Serializable{
         }
         return full;
     }
-    
-    
-    
 }

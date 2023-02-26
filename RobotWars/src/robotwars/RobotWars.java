@@ -69,20 +69,6 @@ public class RobotWars {
                 }
             }while(true);
 
-            
-            
-            /*do{
-                System.out.print("Enter option: ");
-                playerChoice = input.nextInt();
-                if(playerChoice < 1 || playerChoice > 5)
-                {
-                    //throw new OutOfBoundsException exc;
-                    System.out.print("Invalid option");
-                }
-            }while(playerChoice < 1 || playerChoice > 5);*/
-        
-        
-            
             switch(playerChoice){
                 case 1: //new game
                     
@@ -92,7 +78,6 @@ public class RobotWars {
                     int soldierModifier = 1;
                     boolean randomGen = false;
                     int maxRound = 0;
-                    boolean breachers = false;
                     int numTunnels = 1;
                     int tunnelLength = 8;
                     int energy = 10;                    
@@ -125,15 +110,7 @@ public class RobotWars {
                             System.out.println("Invalid option");
                         }
                     }while(true);
-                    
-                    /*do{
-                        playerChoice = input.nextInt();
-                        if(playerChoice < 1 || playerChoice > 3)
-                        {
-                            System.out.print("\n--> ");
-                        }
-                    }while(playerChoice < 1 || playerChoice > 3);*/
-                    
+
                     if(playerChoice == 1)
                     {
                         gamemode = "Siege";
@@ -177,20 +154,12 @@ public class RobotWars {
                             System.out.println("Invalid option");
                         }
                     }while(true);
-                    /*do{
-                        playerChoice = input.nextInt();
-                        if(playerChoice < 1 || playerChoice > 5)
-                        {
-                            System.out.print("\n--> ");
-                        }
-                    }while(playerChoice < 1 || playerChoice > 5);*/
                     
                     if(playerChoice == 1) //Easy
                     {
                         difficulty="Easy";
                         soldierModifier = 1;
                         randomGen = false;
-                        breachers = false;
                         numTunnels = 1;
                         tunnelLength = 8;
                         energy = 10;
@@ -205,10 +174,9 @@ public class RobotWars {
                         difficulty="Normal";
                         soldierModifier = 2;
                         randomGen = false;
-                        breachers = false;
                         numTunnels = 3;
                         tunnelLength = 8;
-                        energy = 8;
+                        energy = 12;
                         
                         if(gamemode.equals("Survival"))
                         {
@@ -220,10 +188,9 @@ public class RobotWars {
                         difficulty="Hard";
                         soldierModifier = 3;
                         randomGen = false;
-                        breachers = false;
                         numTunnels = 5;
                         tunnelLength = 8;
-                        energy = 5;
+                        energy = 16;
                         
                         if(gamemode.equals("Survival"))
                         {
@@ -235,10 +202,9 @@ public class RobotWars {
                         difficulty="Realistic";
                         soldierModifier = 4;
                         randomGen = true;
-                        breachers = true;
                         numTunnels = 5;
                         tunnelLength = 8;
-                        energy = 5;
+                        energy = 16;
                         
                         if(gamemode.equals("Survival"))
                         {
@@ -248,16 +214,189 @@ public class RobotWars {
                     }
                     if(playerChoice == 5) //Custom
                     {
-                       
+                        difficulty="Custom";
+                        //get soldierModifier (1-4)
+                        clearScreen();
+                        System.out.println("Please enter soldier spawn Modifier (1 - 4)");
+                        do{
+                            try
+                            {
+                                System.out.print("Enter option: ");
+                                soldierModifier = input.nextInt();
+                                input.nextLine();
+                                if(soldierModifier < 1 || soldierModifier > 4)
+                                {
+                                    throw new OutOfBoundsException();
+                                }
+                                break;
+                            }
+                            catch(OutOfBoundsException e)
+                            {
+                                System.out.println("Invalid option");
+                            }
+                            catch(InputMismatchException e)
+                            {
+                                System.out.println("Invalid input");
+                                input.nextLine();
+                            }
+                        }while(true);
+                        
+                        
+                        //get numTunnels (1 - 26)
+                        clearScreen();
+                        System.out.println("Please enter soldier number of tunnels (1 - 26)");
+                        do{
+                            try
+                            {
+                                System.out.print("Enter option: ");
+                                numTunnels = input.nextInt();
+                                input.nextLine();
+                                if(numTunnels < 1 || numTunnels > 26)
+                                {
+                                    throw new OutOfBoundsException();
+                                }
+                                break;
+                            }
+                            catch(OutOfBoundsException e)
+                            {
+                                System.out.println("Invalid option");
+                            }
+                            catch(InputMismatchException e)
+                            {
+                                System.out.println("Invalid input");
+                                input.nextLine();
+                            }
+                        }while(true);
+
+                        //get tunnelLength (1 - 14)
+                        clearScreen();
+                        System.out.println("Please enter length of each tunnel (4 - 14)");
+                        do{
+                            try
+                            {
+
+                                System.out.print("Enter option: ");
+                                tunnelLength = input.nextInt();
+                                input.nextLine();
+                                if(tunnelLength < 4 || tunnelLength > 14)
+                                {
+                                    throw new OutOfBoundsException();
+                                }
+                                break;
+                            }
+                            catch(OutOfBoundsException e)
+                            {
+                                System.out.println("Invalid option");
+                            }
+                            catch(InputMismatchException e)
+                            {
+                                System.out.println("Invalid input");
+                                input.nextLine();
+                            }
+                        }while(true);
+                        
+                        //get randomGen (1-2)
+                        clearScreen();
+                        System.out.println("Do you want this to be the length of every tunnel (squared map)?");
+                        System.out.println("Yes\t(1)");
+                        System.out.println("No\t(2)");
+                        do{
+                            try
+                            {
+                                System.out.print("Enter option: ");
+
+                                int randomGenInput = input.nextInt();
+
+                                if(randomGenInput == 1)
+                                {
+                                    randomGen = false;
+                                }
+                                else if(randomGenInput == 2)
+                                {
+                                    randomGen = true;
+                                }
+                                else
+                                {
+                                    throw new OutOfBoundsException();
+                                }
+                                break;
+                            }
+                            catch(OutOfBoundsException e)
+                            {
+                                System.out.println("Invalid option");
+                                input.nextLine();
+                            }
+                            catch(InputMismatchException e)
+                            {
+                                System.out.println("Invalid input");
+                                input.nextLine();
+                            }
+                        }while(true);
+                        
+                        
+                        //get startingEnergy (3 - ...)
+                        clearScreen();
+                        System.out.println("Enter starting energy (minimum 3)");
+                        System.out.print("Type here: ");
+                        do{
+                            try
+                            {
+                                energy = input.nextInt();
+                                input.nextLine();
+
+                                if(energy < 3)
+                                {
+                                    throw new OutOfBoundsException();
+                                }
+                                break;
+                            }
+                            catch(OutOfBoundsException e)
+                            {
+                                System.out.println("Invalid option");
+                            }
+                            catch(InputMismatchException e)
+                            {
+                                System.out.println("Invalid input");
+                                input.nextLine();
+                            }
+                        }while(true);
+                        
+                        
+                        //get gameLength (maxRound) (1 - ...)
+                        if(gamemode.equals("Survival"))
+                        {
+                            clearScreen();
+                            System.out.println("Enter maximum Round (minimum 1)");
+                            do{
+                                try
+                                {
+                                    System.out.print("Type here: ");
+                                    maxRound = input.nextInt();
+                                    input.nextLine();
+                                    if(maxRound < 1)
+                                    {
+                                        throw new OutOfBoundsException();
+                                    }
+                                    break;
+                                }
+                                catch(OutOfBoundsException e)
+                                {
+                                    System.out.println("Invalid option");
+                                }
+                                catch(InputMismatchException e)
+                                {
+                                    System.out.println("Invalid input");
+                                    input.nextLine();
+                                }
+                            }while(true);
+                        }
                     }
                     
-                      //loading screen??
                     //create game
-                    Game game = new Game(gamemode, difficulty, soldierModifier, randomGen, maxRound, breachers, numTunnels, tunnelLength, energy);
+                    Game game = new Game(gamemode, difficulty, soldierModifier, randomGen, maxRound, numTunnels, tunnelLength, energy);
+                    
                     //start game
-                    
                     loadingScreen("Loading");
-                    
                     game.gameOn();
                     
                     if(game.saveOnOff()){                    
@@ -414,8 +553,6 @@ public class RobotWars {
     //                catch(Exception e){}
     //                
     //                *what's the difference??*
-
-
                  break;
 
                 case 5: //quit to desktop
@@ -448,9 +585,10 @@ public class RobotWars {
     {
         String message = givenString;
         double duration = 0.5;
-        clearScreen();
+        int loops = 2;
         
-        for(int i = 0; i < 3; i++)
+        clearScreen();
+        for(int i = 0; i < loops; i++)
         {
             System.out.print(message + ".");
             delay(duration);
@@ -582,7 +720,29 @@ public class RobotWars {
                 "\t\tThis robot can kill a soldier in its room instantly, acting as a direct attack mechanism. \n\t\tHowever, if it does attack, it requires 3 rounds to reload so it can kill a soldier again.\n\n" +
                 "\u001b[36mFIRE ROBOT\u001b[0m:    Stamina: 1\n" +
                 "\t\tEnergy portion needed: 4\n" +
-                "\t\tThis robot can only attack when its stamina is reduced to 0 (once a soldier attacks it for the first time). \n\t\tOnce it does, it can annihilate al the soldiers in its room, acting similarly to a bomb, sacrificing itself.\n");
+                "\t\tThis robot can only attack when its stamina is reduced to 0 (once a soldier attacks it for the first time). \n\t\tOnce it does, it can annihilate all the soldiers in its room, acting similarly to a bomb, sacrificing itself.\n\n" + 
+                //bonus robots
+                "\u001b[36mPOWER HOUSE ROBOT\u001b[0m: Stamina: 1\n" +
+                "\t\t    Energy portion needed: 8\n" +
+                "\t\t    This robot increases the colony’s energy reserve by 4, refilling it.\n\n" + 
+                "\u001b[36mOBSIDIAN ROBOT\u001b[0m: Stamina: 20\n" +
+                "\t\t Energy portion needed: 10\n" +
+                "\t\t Similar to the ARMORED ROBOT, but with even larger stamina.\n\n" + 
+                "\u001b[36mRADIATION ROBOT\u001b[0m: Stamina: 1\n" +
+                "\t\t  Energy portion needed: 25\n" +
+                "\t\t  This robot can weaken all the soldiers in the range from its room to the Master room, its attack reduces their stamina by 1.\n\n" + 
+                "\u001b[36mLONG RANGE SHOOTER ROBOT\u001b[0m: Stamina: 1\n" +
+                "\t\t\t   Energy portion needed: 8\n" +
+                "\t\t\t   This robot can kill a soldier in its whole tunnel instantly, acting as a direct attack mechanism. \n\t\t\t   Similarly to the Shooter Robot, it requires 3 rounds to reload after every attack.\n\n" + 
+                "\u001b[36mLASER SHOOTER ROBOT\u001b[0m:   Stamina: 2\n" +
+                "\t\t\tEnergy portion needed: 20\n" +
+                "\t\t\tThis robot shoots a laser beam, effectively killing one soldier from every room ahead of it. It needs \n\t\t\tto fully charge first before it can fire. Each charge takes 3 rounds.\n\n" + 
+                "\u001b[36mFIRE BARREL ROBOT\u001b[0m: Stamina: 1\n" +
+                "\t\t    Energy portion needed: 30\n" +
+                "\t\t    Similarly to the FIRE ROBOT, this robot can only attack when its stamina is reduced to 0. \n\t\t    Once it does, it can annihilate all the soldiers in every room ahead of it.\n\n" + 
+                "\u001b[32mBFG9000 ROBOT\u001b[0m: Stamina: 3\n" +
+                "\t\tEnergy portion needed: 50\n" +
+                "\t\tThe famous BFG9000. This robot shoots a heavy green projectile that turns all transforms all life it flies by \n\t\tinto pure atomic energy. Requires 8 whole rounds first to fully charge before it can fire.\n");
 
         System.out.println("REPRESANTATION GUIDE\n---------------------\n"
                 + "~VIEWING YOUR COLONY~\n" +
@@ -590,7 +750,7 @@ public class RobotWars {
                 + "Also, the mode and the difficulty level you are playing, as well as the energy reserve and the round you are currently on appear at the bottom of the screen.\n" +
                 "\u001b[31;1m*\u001b[0m means enemy presence ([…] number of soldiers in the room) \n" +
                 "Since \u001b[31;1m*\u001b[0m can declare multiple soldiers existing in a room, so unless you kill all the soldiers in one room, the * won’t disappear.\n" +
-                "\u001b[36m*\u001b[0m means ally presence ([type of] robot in the room) \n" +
+                "\u001b[36m*\u001b[0m means ally presence ([type of] robot in the room), specifically \u001b[32m*\u001b[0m means BFG9000 robot\n" +
                 "If there is a \u001b[36m*\u001b[0m in a room in this round, but in the next one it has disappeared, that means that the robot was killed by a soldier.\n" +
                 "\u001b[33m*\u001b[0m means Master robot (in the last room of each tunnel)\n\n" +
                 "~ROOM CAMERA MODE~\n" +
@@ -603,8 +763,5 @@ public class RobotWars {
                 +"     You can select this option at any time during your gameplay.\n" +
                 "LOAD: If you wish to continue an older game you had saved (in the same folder as the program-game Robot Wars), you \n"
                 + "      can choose this option in the main menu, and keep playing from the exact point where you had previously stopped.\n");
-
     }
-    
-
 }

@@ -14,26 +14,26 @@ public class Game implements Serializable{
     private int soldierModifier;
     private boolean randomGen;
     private int maxRound;
-    private boolean breachers;
     private Colony colony;
     private int currentRound;
     private boolean onGoingMatch;
     private boolean save;
+    private double pauseDuration;
             
-    public Game(String gamemode, String difficulty, int soldierModifier, boolean randomGen, int maxRound, boolean breachers, int numTunnels, int tunnelLength, int energy)
+    public Game(String gamemode, String difficulty, int soldierModifier, boolean randomGen, int maxRound, int numTunnels, int tunnelLength, int energy)
     {
         this.gamemode = gamemode;
         this.difficulty= difficulty;
         this.soldierModifier = soldierModifier;
         this.randomGen = randomGen;
         this.maxRound = maxRound;
-        this.breachers = breachers;
         
-        this.colony = new Colony(energy, numTunnels, tunnelLength);
+        this.colony = new Colony(energy, numTunnels, tunnelLength, randomGen);
         
         this.currentRound = 0;
         this.onGoingMatch = true;
         this.save=false;
+        pauseDuration = 0;
     }
     
     
@@ -49,27 +49,21 @@ public class Game implements Serializable{
             if(!onGoingMatch){
                     break;
             }
-            System.out.println("Debug inGame after playerTurn");
            
-            double duration = 0;
-            
             spawnSoldiers();    //done
-            System.out.println("Debug inGame after soldiersSpawn");
             clearScreen();
             scannerMode();
-            delay(duration);
+            delay(pauseDuration);
             
             soldiersTurn();     //done
-            System.out.println("Debug inGame after soldiersTurn");
-             clearScreen();
+            clearScreen();
             scannerMode();
-            delay(duration);
+            delay(pauseDuration);
             
             robotsTurn();       //done
-            System.out.println("Debug inGame after robotsTurn");
-             clearScreen();
+            clearScreen();
             scannerMode();
-            delay(duration);
+            delay(pauseDuration);
             
             currentRound++;
             
@@ -79,7 +73,7 @@ public class Game implements Serializable{
                 //press enter to return to main menu
                 //System.out.print("Press enter to return to main menu");
                 //input.nextLine();
-                System.out.println("onGOingMatch = " + onGoingMatch);
+//                System.out.println("onGOingMatch = " + onGoingMatch);
 //                return;
                 System.out.print("Press enter to return to main menu");
                 input.nextLine();
@@ -96,6 +90,7 @@ public class Game implements Serializable{
                            "          /_/|_|\\____/____/\\____/ /_/    \\___/\\____/____/\\____/_/|_/   /_/  ");
         System.out.println(colony);
               
+
         System.out.print("     MODE: "+ this.gamemode);
         System.out.print("          DIFFICULTY: "+ this.difficulty);
         System.out.print("          ENERGY: "+ colony.getEnergy());
@@ -168,10 +163,10 @@ public class Game implements Serializable{
         System.out.println("Switch to camera mode \t(1)");
         System.out.println("Buy robot \t\t(2)");
         System.out.println("Scrap Robot \t\t(3)");
-//        System.out.println("Barricade \t\t(4)");
         System.out.println("End turn \t\t(4)");
         System.out.println("Save \t\t\t(5)");
         System.out.println("Quit \t\t\t(6)");
+//        System.out.println("Turn animations on/off\t(7)");
 
     }
 
@@ -224,12 +219,19 @@ public class Game implements Serializable{
                     
                     //robot shop menu
                     System.out.println("\nRobot List\n-----------");
-                    System.out.println("Energy Producer Robot -- 3 ENERGY \t(1)");
-                    System.out.println("Armored Robot -- 3 ENERGY \t\t(2)");
-                    System.out.println("Fighter Robot -- 4 ENERGY \t\t(3)");
-                    System.out.println("Shooter Robot -- 4 ENERGY \t\t(4)");
-                    System.out.println("Fire Robot -- 4 ENERGY \t\t\t(5)");
-                    System.out.println("Exit \t\t\t\t\t(0)");
+                    System.out.println("Energy Producer Robot    -- 3  ENERGY  (1)");
+                    System.out.println("Armored Robot            -- 3  ENERGY  (2)");
+                    System.out.println("Fighter Robot            -- 4  ENERGY  (3)");
+                    System.out.println("Shooter Robot            -- 4  ENERGY  (4)");
+                    System.out.println("Fire Robot               -- 4  ENERGY  (5)");
+                    System.out.println("Power House Robot        -- 8  ENERGY  (6)");
+                    System.out.println("Obsidian Robot           -- 10 ENERGY  (7)");
+                    System.out.println("Radiation Robot          -- 25 ENERGY  (8)");
+                    System.out.println("Long Range Shooter Robot -- 8  ENERGY  (9)");
+                    System.out.println("Laser Shooter Robot      -- 20 ENERGY (10)");
+                    System.out.println("Fire Barrel Robot        -- 30 ENERGY (11)");
+                    System.out.println("BFG9000 Robot            -- 50 ENERGY (12)");
+                    System.out.println("Exit                                   (0)");
                     System.out.println("\nENERGY: " + colony.getEnergy());
 
 
@@ -244,7 +246,7 @@ public class Game implements Serializable{
                                 playerTurn();
                             }
 
-                            if(playerChoice < 0 || playerChoice > 5)
+                            if(playerChoice < 0 || playerChoice > 12)
                             {
                                 throw new OutOfBoundsException();
                             }
@@ -282,7 +284,27 @@ public class Game implements Serializable{
                             case 5:
                                 robot = new FireRobot(null);
                                 break;
-
+                            case 6:
+                                robot = new PowerHouseRobot(null);
+                                break;
+                            case 7:
+                                robot = new ObsidianRobot(null);
+                                break;
+                            case 8:
+                                robot = new RadiationRobot(null);
+                                break;
+                            case 9:
+                                robot = new LongRangeShooterRobot(null);
+                                break;
+                            case 10:
+                                robot = new LaserShooterRobot(null);
+                                break;
+                            case 11:
+                                robot = new FireBarrelRobot(null);
+                                break;
+                            case 12:
+                                robot = new BFG9000Robot(null);
+                                break;
                         }
                         colony.incEnergy(-robot.getEnergyNeeded());
                     }
@@ -482,9 +504,17 @@ public class Game implements Serializable{
                     onGoingMatch = false;
                     return;
                 }
-        
-
             }
+//            else if(playerChoice == 7){  //turn animations on / off 
+//                if(pauseDuration > 0)
+//                {
+//                    pauseDuration = 0;
+//                }
+//                else if(pauseDuration == 0)
+//                {
+//                    pauseDuration = 0.8;
+//                }
+//            }
         }while(onGoingTurn);
     }
     
@@ -501,6 +531,7 @@ public class Game implements Serializable{
     }
             
     public void spawnSoldiers(){
+        
         int maxSpawnNumber = colony.getNumTunnels() * soldierModifier;
         
         System.out.println("maxSpawnNumber =" + maxSpawnNumber);
@@ -539,27 +570,7 @@ public class Game implements Serializable{
             {
                 ArrayList<Soldier> soldierList = colony.getRoom(i, j).getSoldierList();
                 Robot robotBeforeTurn = colony.getRoom(i, j).getRobot();
-                
-                
-                /*
-                int loops = soldierList.size();
-                for(int k = 0; k < loops; k++)
-                {
-                    Soldier soldier = soldierList.get(0);
-                    
-                    soldier.act(colony);
-                    
-                    Robot robotAfterTurn = colony.getRoom(i, j).getRobot();
-                    System.out.println("soldier at room " + i + j + " acted");
-                    //if robot dies soldiers dont move further
-                    if(robotBeforeTurn != robotAfterTurn)
-                    {
-                        System.out.println("loop broke");
-                        break;
-                    }
-                }
-                */
-                
+
                 for(int k = soldierList.size() - 1; k >= 0; k--)
                 {
                     Soldier soldier = soldierList.get(k);
@@ -571,7 +582,6 @@ public class Game implements Serializable{
                     //if robot dies soldiers dont move further
                     if(robotBeforeTurn != robotAfterTurn)
                     {
-                        System.out.println("loop broke");
                         break;
                     }
                 }
@@ -596,28 +606,12 @@ public class Game implements Serializable{
 //        MasterRobot master = null;
         boolean gameOver = false;
         clearScreen();
-        
-        //find master
-        
-//        colony.getMasterRoom().breached();
-//        for(int i = 0; i < colony.getNumTunnels(); i++)
-//        {
-//            for(int j = 0; j < colony.getTunnel(i).size(); j++ )
-//            {
-//                Room room = colony.getRoom(i, j);
-//                if(room.getClass() == MasterRoom.class)
-//                {
-//                    master = room.getMasterRobot();
-//                }
-//            }
-//        }
 
         if(gamemode.equals("Siege"))
         {
              //check master's condition
             if(colony.getMasterRoom().breached())
             {
-                //message
                 scannerMode();
                 gameOver = true;
                 System.out.println("\u001b[31;1mOH NO! THE MASTER ROOM WAS BREACHED!\u001b[0m");
@@ -626,7 +620,6 @@ public class Game implements Serializable{
             if(colony.getAllSoldiersNumber() == 0)
             {
                 scannerMode();
-                //message
                 gameOver = true;
                 System.out.println("\u001b[36mCONGRATULATIONS! THERE ARE NO THREATS IN THE COLONY!\u001b[0m");
                 System.out.println("\u001b[33mTO OUR FALLEN COMRADES, YOU DID NOT DEDICATE YOUR MECHANICAL HEARTS IN VAIN...\u001b[0m");
@@ -655,10 +648,7 @@ public class Game implements Serializable{
                 System.out.println("\u001b[33mTHE MASTER ROOM WAS BREACHED IN ROUND "+ currentRound+"\nCONGRATULATIONS FOR FIGHTING SO VALIANTLY!\u001b[0m");
                 System.out.println("\u001b[33mTO OUR FALLEN COMRADES, YOU DID NOT DEDICATE YOUR MECHANICAL HEARTS IN VAIN...\u001b[0m");
             }
-
         }
-
-        
         return gameOver;
     }
     

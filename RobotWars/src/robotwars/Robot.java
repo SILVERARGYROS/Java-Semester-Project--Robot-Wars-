@@ -29,6 +29,27 @@ public abstract class Robot extends Actor{
         else if(getClass() == ArmoredRobot.class){
             return "Armored Robot";
         }
+        else if(getClass() == ObsidianRobot.class){
+            return "Obsidian Robot";
+        }
+        else if(getClass() == PowerHouseRobot.class){
+            return "Power House Robot";
+        }
+        else if(getClass() == RadiationRobot.class){
+            return "Radiation Robot";
+        }
+        else if(getClass() == LongRangeShooterRobot.class){
+            return "Long Range Shooter Robot";
+        }
+        else if(getClass() == LaserShooterRobot.class){
+            return "Laser Shooter Robot";
+        }
+        else if(getClass() == BFG9000Robot.class){
+            return "BFG9000 Robot";
+        }
+        else if(getClass() == FireBarrelRobot.class){
+            return "Fire Barrel Robot";
+        }
         else{
             return null;
         }

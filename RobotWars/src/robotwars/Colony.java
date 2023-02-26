@@ -11,7 +11,7 @@ public class Colony implements Serializable{
 
     
     //constructor
-    public Colony(int energy, int numTunnels, int tunnelLength){
+    public Colony(int energy, int numTunnels, int tunnelLength, boolean randomGen){
         this.energy=energy;
         map= new ArrayList<>();
         
@@ -29,6 +29,20 @@ public class Colony implements Serializable{
             for(int j=0; j<tunnelLength-1; j++){
                 Room room = new Room();
                 map.get(i).add(room);
+                
+            }
+            if(randomGen)
+            {
+                System.out.println("RANDOM GEN DEBUG");
+                //decides how many extra rooms will be added
+                int extraRoomsNumber = ((int) (Math.random() * 10000)) % 3;
+                
+                //adds extra rooms in the tunnel BEFORE addind the masterRoom
+                for(int j=0; j<extraRoomsNumber; j++){
+                    Room room = new Room();
+                    map.get(i).add(room);
+                }
+                
             }
             map.get(i).add(masterRoom);
             //MasterRoom Mroom = new MasterRoom();
@@ -38,11 +52,11 @@ public class Colony implements Serializable{
         //links rooms
         for(int i=0; i<numTunnels; i++){
             int j=0;
-            //entryroom
+            //first room
             map.get(i).get(j).setEntry(null);
             map.get(i).get(j).setExit(map.get(i).get(j+1));
 
-            //rooms
+            //middle rooms
             for(j=1; j<tunnelLength-1; j++){
                 map.get(i).get(j).setEntry(map.get(i).get(j-1));
                 map.get(i).get(j).setExit(map.get(i).get(j+1));
@@ -139,13 +153,21 @@ public class Colony implements Serializable{
             alphabetTunnel= String.valueOf((char)((tunnelId + 1) + 64));
         }
         String full;
-        String[] str= new String[getTunnelLength(tunnelId)];
+        String[] str= new String[5];
         
         //initialize str
         full="";
-        for(int i=0; i<getTunnelLength(tunnelId);i++){
+        
+        for(int i=0; i<5;i++){
             str[i]="";
         }
+        
+//        //add extra space for extra long tunnels (to allign master room)
+//        for(int i=0; i<5;i++){
+//            for(int j=0; j<maxLength()-getTunnelLength(tunnelId);j++){
+//                str[i]= str[i] + "           ";
+//            }
+//        }
 
         for(int i=0; i<getTunnelLength(tunnelId)-1;i++){
             if(i==0){
@@ -156,7 +178,7 @@ public class Colony implements Serializable{
             }
             
         }
-        if(tunnelId==0){
+        if(tunnelId==0 || (tunnelId-1>= 0 && getTunnelLength(tunnelId-1)!=getTunnelLength(tunnelId))){
                 str[0]=str[0]+"---------| \n";
         }
 
@@ -176,22 +198,46 @@ public class Colony implements Serializable{
         str[1]=str[1]+"|        | \n";
           
         
-        str[2]=alphabetTunnel;
+        str[2]=alphabetTunnel + str[2];
         for(int i=0; i<getTunnelLength(tunnelId)-1;i++){    
             if(getRoom(tunnelId,i).getSoldiersNumber()!=0 && getRoom(tunnelId,i).getRobot()!=null){
                 if(i==0){
-                    str[2]=str[2]+"  =  \u001b[31;1m*  \u001b[36m*\u001b[0m  = ";
+                    if(getRoom(tunnelId,i).getRobot() instanceof BFG9000Robot){
+                        str[2]=str[2]+"  =  \u001b[31;1m*  \u001b[32m*\u001b[0m  = "; 
+                    }
+                    else{
+                        str[2]=str[2]+"  =  \u001b[31;1m*  \u001b[36m*\u001b[0m  = ";
+                    }
+                    
                 }
                 else{
-                    str[2]=str[2]+"=  \u001b[31;1m*  \u001b[36m*\u001b[0m  = ";
+                    if(getRoom(tunnelId,i).getRobot() instanceof BFG9000Robot){
+                        str[2]=str[2]+"=  \u001b[31;1m*  \u001b[32m*\u001b[0m  = ";
+                    }
+                    else{
+                        str[2]=str[2]+"=  \u001b[31;1m*  \u001b[36m*\u001b[0m  = ";
+                    }
+                    
                 }
             }
             else if(getRoom(tunnelId,i).getSoldiersNumber()==0 && getRoom(tunnelId,i).getRobot()!=null){
                 if(i==0){
-                    str[2]=str[2]+"  =     \u001b[36m*\u001b[0m  = ";
+                    if(getRoom(tunnelId,i).getRobot() instanceof BFG9000Robot){
+                        str[2]=str[2]+"  =     \u001b[32m*\u001b[0m  = ";
+                    }
+                    else{
+                        str[2]=str[2]+"  =     \u001b[36m*\u001b[0m  = ";
+                    }
+                    
                 }
                 else{
-                    str[2]=str[2]+"=     \u001b[36m*\u001b[0m  = ";
+                    if(getRoom(tunnelId,i).getRobot() instanceof BFG9000Robot){
+                        str[2]=str[2]+"=     \u001b[32m*\u001b[0m  = ";
+                    }
+                    else{
+                        str[2]=str[2]+"=     \u001b[36m*\u001b[0m  = ";
+                    }
+                    
                 }
             }
             else if(getRoom(tunnelId,i).getSoldiersNumber()!=0 && getRoom(tunnelId,i).getRobot()==null){
@@ -237,7 +283,7 @@ public class Colony implements Serializable{
                 str[4]=str[4]+"---------- ";
             }
         }        
-        if(tunnelId==getNumTunnels()-1){
+        if(tunnelId==getNumTunnels()-1 || (tunnelId+1<=getNumTunnels()-1 && getTunnelLength(tunnelId+1)!=getTunnelLength(tunnelId))){
             str[4]=str[4]+"---------| \n";
         }
         else{
@@ -245,7 +291,7 @@ public class Colony implements Serializable{
         }
         
     
-        for(int x=0; x<getTunnelLength(tunnelId);x++){
+        for(int x=0; x<5;x++){
              full= full+str[x];
         }
         return full;
